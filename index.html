@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimension Comparison Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Dimension Comparison Calculator</h2>
+
+        <label for="temu">Temu Side Dimension:</label>
+        <input type="number" id="temu" placeholder="Enter Temu side dimension">
+        <label for="temu-unit">Unit:</label>
+        <select id="temu-unit">
+            <option value="1">cm</option>
+            <option value="100">m</option>
+            <option value="0.1">mm</option>
+            <option value="2.54">inch</option>
+            <option value="30.48">feet</option>
+        </select>
+
+        <label for="other">Other Side Dimension:</label>
+        <input type="number" id="other" placeholder="Enter Other side dimension">
+        <label for="other-unit">Unit:</label>
+        <select id="other-unit">
+            <option value="1">cm</option>
+            <option value="100">m</option>
+            <option value="0.1">mm</option>
+            <option value="2.54">inch</option>
+            <option value="30.48">feet</option>
+        </select>
+
+        <button onclick="compareDimensions()">Compare</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function compareDimensions() {
+            const temu = parseFloat(document.getElementById('temu').value);
+            const other = parseFloat(document.getElementById('other').value);
+            const temuUnit = parseFloat(document.getElementById('temu-unit').value);
+            const otherUnit = parseFloat(document.getElementById('other-unit').value);
+            const resultDiv = document.getElementById('result');
+
+            // Validation
+            if (isNaN(temu) || isNaN(other) || temu <= 0 || other <= 0) {
+                resultDiv.textContent = "Please enter valid positive numbers for both dimensions.";
+                resultDiv.style.color = "red";
+                return;
+            }
+
+            // Convert dimensions to cm
+            const temuInCm = temu * temuUnit;
+            const otherInCm = other * otherUnit;
+
+            // Calculate the percentage difference
+            const difference = Math.abs(temuInCm - otherInCm);
+            const percentageDifference = (difference / temuInCm) * 100;
+
+            // Determine the result
+            if (percentageDifference < 10) {
+                resultDiv.textContent = `Same: The difference is ${percentageDifference.toFixed(2)}%, which is less than 10%.`;
+                resultDiv.style.color = "green";
+            } else {
+                resultDiv.textContent = `Not Same: The difference is ${percentageDifference.toFixed(2)}%, which is greater than or equal to 10%.`;
+                resultDiv.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
